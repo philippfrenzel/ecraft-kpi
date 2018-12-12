@@ -285,39 +285,36 @@ define(["qlik", "jquery", "css!./style.css", "text!./template.html", "./getSheet
 				}
 			}, t.action = function () {
 				if ("edit" != e.navigation.getMode())
-					for (var o = 0; o <= t.listItems.length - 1; o++) switch (t.listItems[o].settings.action1type) {
-						case "Field":
-                            /*
-                                a.field(t.listItems[o].settings.action1name).selectValues([], t.listItems[o].settings.action1Method);
-                            */
-                            console.log("Action, click, Field");
-                            console.log('\'' + t.listItems[o].settings.action1name + '\'');
-                            console.log( t.listItems[o].settings.action1value);
+					for (var o = 0; o <= t.listItems.length - 1; o++) 
+						
+						switch (t.listItems[o].settings.action1type) {
+							case "Field":
+								
+								//console.log( t.listItems ) ;
+								
+								// Array erstellen für das Value
+								var arr = [];
+								if( isNaN( parseInt( t.listItems[o].settings.action1value ) ) ) {
+									arr.push(t.listItems[o].settings.action1value );
+								} else {
+									arr.push ( parseInt( t.listItems[o].settings.action1value ) ); 
+								}
 
-
-                            var arr = [];
-                            
-                            if( isNaN( parseInt( t.listItems[o].settings.action1value ) ) ) {
-                                arr.push(t.listItems[o].settings.action1value );
-                            } else {
-                                arr.push ( parseInt( t.listItems[o].settings.action1value ) ); 
-                            }
-
-                            console.log(arr);
-
-                            a.field('\'' + t.listItems[o].settings.action1name + '\'').selectValues(arr, true, true);
-
-                            break;
-                            
-						case "Sheet":
-							;
-							e.navigation.gotoSheet(t.listItems[o].settings.sheet.split("|")[1]);
-                            break;
-                            
-						case "Variable":
-							a.variable.setContent(t.listItems[o].settings.action1name, t.listItems[o].settings.action1value)
+								// Wert zuweisen an das Feld
+								a.field('\'' + t.listItems[o].settings.action1name + '\'').selectValues(arr,  t.listItems[o].settings.action1Method, true);
+								break;
+								
+							case "Sheet":
+								;
+								e.navigation.gotoSheet(t.listItems[o].settings.sheet.split("|")[1]);
+								break;
+								
+							case "Variable":
+								a.variable.setContent(t.listItems[o].settings.action1name, t.listItems[o].settings.action1value)
+						}
 					}
-			}
-		}]
+				}
+			]
+		}
 	}
-});
+);
